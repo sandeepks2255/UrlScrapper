@@ -7,15 +7,15 @@ require "webmock/minitest"
 class DownloadTest < Minitest::Test
     def setup
         url = "http://s3.amazonaws.com/alexa-static/top-1m.csv.zip"
-        top-domain="/home/sandeep/Desktop/ruby/minitest/top-1m.csv"
         @download = DownloadFile.new(url)
         FileUtils.rm('top-domain') if File.exist?("top-domain")
-        stub_request(:any, url).to_return(status: 200,body:  File.read("./top-domain"),headers: {"Content-Type" => 'application/octet-stream'} )
+        stub_request(:any, url).to_return(status: 200,body:  File.read("./top-1m.csv"),headers: {"Content-Type" => 'application/octet-stream'} )
     end
     def test_downloading_a_file    
-        @download.file   
-         assert_equal File.exist?("./top-domain"), true  
+        @download.fetch
+         assert_equal File.exist?("./top-1m.csv"), true  
     end
+    
  end
 
 class Testextracted < Minitest::Test
@@ -28,8 +28,4 @@ class TestCreatedFile < Minitest::Test
         assert File.exists? "/home/sandeep/Desktop/ruby/minitest/newfile.txt"
     end
 end
-class SortedOrNot < Minitest::Test
-    def sorted
-        assert_empty Array, MergeSort::list
-    end
-end
+
